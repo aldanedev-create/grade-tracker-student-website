@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Grade - Student Grade Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>➕ Add Grade</h1>
+            <p>Enter a new subject and its grade</p>
+        </header>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <form method="POST" action="{{ url_for('add_grade') }}" class="grade-form">
+            <div class="form-group">
+                <label for="subject">Subject Name:</label>
+                <input type="text" id="subject" name="subject" required
+                       maxlength="100" placeholder="e.g., Mathematics, English, Biology">
+                <span id="subject-error" class="error-message"></span>
+                <small>Enter the name of the subject (no commas allowed)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">Grade (%):</label>
+                <input type="number" id="grade" name="grade" required
+                       step="0.1" min="0" max="100" placeholder="e.g., 85.5">
+                <span id="grade-error" class="error-message"></span>
+                <small>Enter a grade between 0 and 100</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add Grade</button>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        <div class="info-box">
+            <h4>💡 Tip:</h4>
+            <p>Make sure the subject name is unique. If you want to update a grade, use the Edit option from View Grades.</p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

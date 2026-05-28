@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Student Grade Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Search Subjects</h1>
+            <p>Find specific subjects and their grades</p>
+        </header>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <form method="POST" action="{{ url_for('search') }}" class="search-form">
+            <div class="form-group">
+                <label for="search_term">Subject Name:</label>
+                <input type="text" id="search_term" name="search_term" required
+                       value="{{ search_term }}" placeholder="e.g., Math, English, Physics">
+                <small>Enter part of the subject name (case insensitive)</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        {% if search_result %}
+            <div class="search-result">
+                <h3>🔎 Search Result</h3>
+                <div class="result-card search-card">
+                    <div class="result-details">
+                        <p><strong>Subject:</strong> {{ search_result.subject }}</p>
+                        <p><strong>Grade:</strong> {{ search_result.grade }}%</p>
+                        <p><strong>Classification:</strong> {{ search_result.classification }}</p>
+                        <p><strong>Status:</strong>
+                            {% if search_result.grade >= 50 %}
+                                <span class="status-pass">PASS</span>
+                            {% else %}
+                                <span class="status-fail">FAIL</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="search-actions">
+                        <a href="{{ url_for('edit_grade', subject=search_result.subject) }}" class="btn-small btn-edit">Edit</a>
+                        <a href="{{ url_for('delete_grade', subject=search_result.subject) }}" class="btn-small btn-delete"
+                           onclick="return confirm('Are you sure you want to delete {{ search_result.subject }}?')">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% elif search_term and not search_result %}
+            <div class="empty-state">
+                <p>No subject found containing "{{ search_term }}"</p>
+                <a href="{{ url_for('add_grade') }}" class="btn btn-primary">Add a Grade</a>
+            </div>
+        {% endif %}
+
+        <div class="navigation">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

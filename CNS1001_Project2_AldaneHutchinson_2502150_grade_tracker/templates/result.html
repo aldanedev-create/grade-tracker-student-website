@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - Student Grade Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container results-page">
+        <header>
+            <h1>📊 Performance Results</h1>
+            <p>Your academic performance analysis</p>
+        </header>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="results-grid">
+            <div class="result-card {% if pass_status == 'PASS' %}pass-result{% else %}fail-result{% endif %}">
+                <div class="result-icon">📈</div>
+                <div class="result-value">{{ average|round(1) }}%</div>
+                <div class="result-label">Average Grade</div>
+                <div class="result-status">{{ pass_status }}</div>
+                <div class="result-message">{{ pass_message }}</div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">🏆</div>
+                <div class="result-value">{{ highest_grade|round(1) }}%</div>
+                <div class="result-label">Highest Grade</div>
+                <div class="result-subject">{{ highest_subject }}</div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">⚠️</div>
+                <div class="result-value">{{ lowest_grade|round(1) }}%</div>
+                <div class="result-label">Lowest Grade</div>
+                <div class="result-subject">{{ lowest_subject }}</div>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <h3>📊 Performance Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-value">{{ total_subjects }}</span>
+                    <span class="stat-label">Total Subjects</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ passing_count }}</span>
+                    <span class="stat-label">Passing Subjects</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ failing_count }}</span>
+                    <span class="stat-label">Failing Subjects</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ (passing_count / total_subjects * 100)|round(1) }}%</span>
+                    <span class="stat-label">Pass Rate</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-card">
+            <h3>📝 Detailed Breakdown</h3>
+            <div class="table-responsive">
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Grade (%)</th>
+                            <th>Classification</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in subjects_data %}
+                            <tr class="{% if subject.status == 'Pass' %}pass-row{% else %}fail-row{% endif %}">
+                                <td>{{ subject.subject }}</td>
+                                <td>{{ subject.grade|round(1) }}</td>
+                                <td>{{ subject.classification }}</td>
+                                <td>{{ subject.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+            <a href="{{ url_for('view_grades') }}" class="btn btn-primary">View All Grades</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

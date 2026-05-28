@@ -1,0 +1,25 @@
+# CNS1001 Project 2 - Student Grade Tracker
+# Student: Aldane Hutchinson | ID: 2502150
+
+Flask>=2.3.0
+
+# ============================================================
+# HOW TO INSTALL:
+# Open your terminal in the project folder and run:
+#   cd grade_tracker
+#   pip install -r CNS1001_Project2_AldaneHutchinson_2502150_requirements.txt
+#
+# Or install Flask directly:
+#   pip install flask
+#    check if flash already install pip show flask
+# To run the application:
+#   python CNS1001_Project2_AldaneHutchinson_2502150_app.py
+#
+# Then open your browser and go to:
+#   http://127.0.0.1:5000 
+# HTML, CSS, and JS files must keep their original names to work or else it work break 
+# flask would throw this error
+# TemplateNotFound: view_grades.html
+# so can't be named
+#  CNS1001_Project2_AldaneHutchinson_2502150_view_grades.html
+# ============================================================

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Tracker - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Student Grade Tracker</h1>
+            <p>Track your academic progress with ease</p>
+        </header>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="stats-card">
+            <h3>📊 Quick Stats</h3>
+            <p>Total Subjects Tracked: <strong>{{ grade_count }}</strong></p>
+        </div>
+
+        <div class="menu-grid">
+            <a href="{{ url_for('add_grade') }}" class="menu-card">
+                <div class="menu-icon">➕</div>
+                <h3>Add Grade</h3>
+                <p>Add new subjects and grades</p>
+            </a>
+
+            <a href="{{ url_for('view_grades') }}" class="menu-card">
+                <div class="menu-icon">📋</div>
+                <h3>View Grades</h3>
+                <p>See all your saved grades</p>
+            </a>
+
+            <a href="{{ url_for('results') }}" class="menu-card">
+                <div class="menu-icon">📊</div>
+                <h3>View Results</h3>
+                <p>Calculate averages and statistics</p>
+            </a>
+
+            <a href="{{ url_for('search') }}" class="menu-card">
+                <div class="menu-icon">🔍</div>
+                <h3>Search</h3>
+                <p>Find specific subjects</p>
+            </a>
+        </div>
+
+        <footer>
+            <p>CNS1001 - Student Grade Tracker | Aldane Hutchinson | ID: 2502150</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
